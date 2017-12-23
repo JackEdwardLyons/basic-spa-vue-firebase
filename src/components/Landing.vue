@@ -100,7 +100,7 @@ export default {}
 <style scoped>
 .raised-container,
 .raised-container__section {
-  margin: -80px 30px 0px;
+  margin: -80px auto 0 auto;
   z-index: 3;
 }
 .raised-container__section {

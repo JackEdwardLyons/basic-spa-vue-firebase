@@ -22,7 +22,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar fixed><!-- v-toolbar :: for top navbar -->
+    <v-toolbar class="grey darken-4 grey white--text" fixed><!-- v-toolbar :: for top navbar -->
       <span class="hidden-sm-and-up"><!-- show at >= 576px -->
         <v-toolbar-side-icon @click.stop="sidebar = !sidebar">
         </v-toolbar-side-icon>
@@ -36,13 +36,14 @@
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
           flat
+          class="white--text"
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
           <v-icon left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
-        <v-btn flat @click="userSignOut" v-if="isAuthenticated">
+        <v-btn class="white--text" flat @click="userSignOut" v-if="isAuthenticated">
           <v-icon left>exit_to_app</v-icon>
           Sign Out
         </v-btn>
@@ -54,8 +55,6 @@
         <router-view></router-view>
     </main>
 
-    
-    
   </v-app>
 </template>
 
@@ -77,7 +76,7 @@
       menuItems () {
         if (this.isAuthenticated) {
           return [
-            { title: 'Home', path: '/home', icon: 'home' }
+            { title: 'admin', path: '/admin', icon: 'home' }
           ]
         } else {
           return [
@@ -97,4 +96,8 @@
 
 <style lang="stylus">
   @import './stylus/main'
+
+  .toolbar__side-icon.btn {
+    color: #fff;
+  }
 </style>

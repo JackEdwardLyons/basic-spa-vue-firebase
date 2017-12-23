@@ -9,7 +9,7 @@ export const actions = {
       commit('setUser', firebaseUser)
       commit('setLoading', false)
       commit('setError', null)
-      router.push('/home')
+      router.push('/admin')
     })
     .catch(error => {
       commit('setError', error.message)
@@ -23,7 +23,7 @@ export const actions = {
       commit('setUser', firebaseUser)
       commit('setLoading', false)
       commit('setError', null)
-      router.push('/home')
+      router.push('/admin')
     })
     .catch(error => {
       commit('setError', error.message)
