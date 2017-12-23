@@ -2,7 +2,7 @@
   <!-- v-app :: Required by Vuetify -->
   <v-app>
     <!-- v-navigation-drawer :: only appears on <= 576px -->
-    <v-navigation-drawer temporary v-model="sidebar">
+    <v-navigation-drawer absolute temporary v-model="sidebar">
       <v-list>
         <v-list-tile
           v-for="item in menuItems"
@@ -50,12 +50,11 @@
     </v-toolbar>
 
     <main>
-      <!-- v-container :: a wrapper for the grid -->
-      <v-container fluid>
         <!-- router-view :: This tag will tell Vue-router to render your routes inside it. -->
         <router-view></router-view>
-      </v-container>
     </main>
+
+    
     
   </v-app>
 </template>
