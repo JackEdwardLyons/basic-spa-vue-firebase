@@ -1,5 +1,5 @@
-/* Vuex ::
- * Serves as a centralized store for all the components in an application,
+/* Vuex Store ::
+ * Serves as a centralized store for all the components in the application,
  * with rules ensuring that the state can only be mutated in a predictable fashion.
  *
  * State is an object with application data.

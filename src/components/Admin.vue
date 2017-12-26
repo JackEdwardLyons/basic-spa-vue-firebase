@@ -17,6 +17,7 @@
           >
             <v-icon>add</v-icon>
           </v-btn>
+          <!-- start modal -->
           <v-dialog v-model="dialog" persistent max-width="700px">
 
             <v-card>
@@ -66,6 +67,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <!-- end modal -->
 
           <v-spacer></v-spacer>
 
@@ -82,6 +84,7 @@
             v-bind:headers="headers"
             v-bind:items="items"
             v-bind:search="search"
+            v-bind:pagination.sync="pagination"
           >
           <template slot="items" slot-scope="props">
             <td>
@@ -147,9 +150,12 @@
           { text: 'Link Name', align: 'left', value: 'name' },
           { text: 'Date Created', value: 'created' },
           { text: 'Category', value: 'category' },
-          { text: 'Generated UTM Link', value: 'link' },
-          { text: 'Copy to clipboard', value: 'copy', sotable: false }
+          { text: 'Generated UTM Link', value: 'link', sortable: false },
+          { text: 'Copy to clipboard', value: 'copy', sortable: false }
         ],
+        // Potential todo:
+        // 1. add server side loading and pagination
+        // 2. allow modal box updating of item after creation
         items: [
           {
             value: false,

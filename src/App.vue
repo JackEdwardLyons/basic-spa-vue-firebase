@@ -50,10 +50,10 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <main>
-        <!-- router-view :: This tag will tell Vue-router to render your routes inside it. -->
-        <router-view></router-view>
-    </main>
+    <!-- <main> tag no longer needed. -->
+    <!-- router-view :: This tag will tell Vue-router to render your routes inside it. -->
+    <router-view></router-view>
+    <!-- </main> -->
 
   </v-app>
 </template>
