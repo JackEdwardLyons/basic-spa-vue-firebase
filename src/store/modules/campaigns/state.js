@@ -1,9 +1,10 @@
 export const state = {
   campaign: {
     category: '',
+    content: '',
     medium: '',
+    name: '',
     source: '',
-    text: '',
     term: '',
     url: '',
     generatedUrl: ''

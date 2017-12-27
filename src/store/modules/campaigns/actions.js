@@ -1,23 +1,26 @@
  export const actions = {
-   updateCampaign ({ commit }, text) {
-     commit('UPDATE_CAMPAIGN', text)
+   updateCampaignCategory ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_CATEGORY', text)
    },
-   updateCampaignCategory ({ commit }, e) {
-     commit('camp/UPDATE_CAMPAIGN_CATEGORY', e.target.value)
+   updateCampaignContent ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_CONTENT', text)
    },
-   updateCampaignMedum ({ commit }, e) {
-     commit('camp/UPDATE_CAMPAIGN_MEDIUM', e.target.value)
+   updateCampaignName ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_NAME', text)
    },
-   updateCampaignSource ({ commit }, e) {
-     commit('camp/UPDATE_CAMPAIGN_SOURCE', e.target.value)
+   updateCampaignMedium ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_MEDIUM', text)
    },
-   updateCampaignTerm ({ commit }, e) {
-     commit('camp/UPDATE_CAMPAIGN_TERM', e.target.value)
+   updateCampaignSource ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_SOURCE', text)
    },
-   updateCampaignUrl ({ commit }, e) {
-     commit('camp/UPDATE_CAMPAIGN_URL', e.target.value)
+   updateCampaignTerm ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_TERM', text)
+   },
+   updateCampaignUrl ({ commit }, text) {
+     commit('UPDATE_CAMPAIGN_URL', text)
    },
    updateGeneratedCampaignUrl ({ commit }) {
-     commit('camp/UPDATE_GENERATED_CAMPAIGN_URL')
+     commit('UPDATE_GENERATED_CAMPAIGN_URL')
    }
  }

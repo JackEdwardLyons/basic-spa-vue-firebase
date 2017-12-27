@@ -1,6 +1,9 @@
 export const mutations = {
-  UPDATE_CAMPAIGN (state, payload) {
-    state.campaign.text = payload
+  UPDATE_CAMPAIGN_NAME (state, payload) {
+    state.campaign.name = payload
+  },
+  UPDATE_CAMPAIGN_CONTENT (state, payload) {
+    state.campaign.content = payload
   },
   UPDATE_CAMPAIGN_CATEGORY (state, payload) {
     state.campaign.category = payload

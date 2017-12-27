@@ -2,8 +2,11 @@
    getCampaignCategory (state) {
      return state.campaign.category
    },
-   getCampaign (state) {
-     return state.campaign.text
+   getCampaignContent (state) {
+     return state.campaign.content
+   },
+   getCampaignName (state) {
+     return state.campaign.name
    },
    getCampaignMedium (state) {
      return state.campaign.medium
