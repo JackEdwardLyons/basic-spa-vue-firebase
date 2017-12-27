@@ -8,7 +8,7 @@
           justify-center
           class="white--text"
         >
-          <h1 class="white--text mb-2 display-1 text-xs-center">UTM Tracker App</h1>
+          <h1 class="white--text mb-2 display-1 text-xs-center">UTM Campaign Manager</h1>
           <div class="subheading mb-3 text-xs-center">Powered by Vuetify and firebase</div>
           <v-btn
             class="blue lighten-2 mt-5"
@@ -32,7 +32,7 @@
         >
           <v-flex xs12 sm6 class="my-3 mt-5">
             <div class="text-xs-center">
-              <h2 class="headline">The best way to track your UTM codes.</h2>
+              <h2 class="headline">The best way to manage your UTM codes.</h2>
             </div>
           </v-flex>
           <v-flex xs12>

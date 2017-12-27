@@ -1,15 +1,15 @@
 <template>
-<v-content style="background: url('https://s3.amazonaws.com/creativetim_bucket/products/64/opt_lbdr_cover.jpg?1505922722')no-repeat;background-size: cover; ">
+<v-content class="gradient-background">
   <v-container fluid>
 
     <v-layout column>
       <v-card class="mt-7"> 
         <v-card-title>
-          <strong class="headline">UTM Campaigns</strong>
+          <strong class="headline text--underline">UTM Campaigns</strong>
           <v-btn
             @click.native.stop="dialog = !dialog"
             class="text-center"
-            color="pink"
+            color="pink lighten-1"
             dark
             fab
             small
@@ -32,22 +32,50 @@
                       <v-text-field label="Website URL" required></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm6>
-                      <v-text-field label="Source" required persistent-hint hint="The referrer: (e.g. google, newsletter)"></v-text-field>
+                      <v-text-field
+                        label="Source" 
+                        required 
+                        persistent-hint 
+                        hint="The referrer: (e.g. google, newsletter)"
+                      ></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm6>
-                      <v-text-field label="Medium" required persistent-hint hint="Marketing medium: (e.g. cpc, banner, email)"></v-text-field>
+                      <v-text-field
+                        label="Medium" 
+                        required 
+                        persistent-hint 
+                        hint="Marketing medium: (e.g. cpc, banner, email)"
+                    ></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm6>
-                      <v-text-field label="Term" required persistent-hint hint="Identify the paid keywords"></v-text-field>
+                      <v-text-field
+                        label="Term" 
+                        required 
+                        persistent-hint 
+                        hint="Identify the paid keywords"
+                      ></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm6>
-                      <v-text-field label="Campaign" required persistent-hint hint="Use to differentiate ads"></v-text-field>
+                      <v-text-field 
+                        @keyup.stop="updateCampaign($event.target.value)"
+                        label="Campaign" 
+                        required 
+                        persistent-hint 
+                        hint="Use to differentiate ads"
+                      ></v-text-field>
                     </v-flex>
                      <v-flex xs12 sm6>
-                      <v-text-field label="Category" required persistent-hint hint="Add a category for your reference"></v-text-field>
+                      <v-text-field 
+                        label="Category" 
+                        required 
+                        persistent-hint 
+                        hint="Add a category for your reference"
+                      >
+                      </v-text-field>
                     </v-flex>
                     <v-flex xs12>
                       <v-text-field
+                        :value="returnGeneratedUrl"
                         class="generated-utm-textarea"
                         name="input-1"
                         label="Your generated UTM link"
@@ -139,6 +167,19 @@
 
 <script>
   export default {
+    methods: {
+      updateCampaign (text) {
+        this.$store.dispatch('camp/updateCampaign', text)
+      }
+      // todo: add all text fields to methods objct
+    },
+    computed: {
+      returnGeneratedUrl () {
+        // basic data binding works here
+        // todo: create a generated campaign url
+        return this.$store.getters['camp/getCampaign']
+      }
+    },
     data () {
       return {
         dialog: false,
@@ -243,6 +284,14 @@
 </script>
 
 <style>
+.gradient-background {
+  background: #005C97;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #363795, #005C97);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #363795, #005C97); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.text--underline {
+  text-decoration: underline;
+}
 .mt-7 {
   margin-top: 7em;
 }

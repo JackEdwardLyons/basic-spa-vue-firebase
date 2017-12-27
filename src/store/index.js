@@ -11,13 +11,9 @@
  import Vue from 'vue'
  import Vuex from 'vuex'
  import authentication from './modules/authentication/authentication'
+ import campaigns from './modules/campaigns/campaigns'
 
  Vue.use(Vuex)
-
-//  import { state } from './state'
-//  import { mutations } from './mutations'
-//  import { actions } from './actions'
-//  import { getters } from './getters'
 
 /* Vuex Modules ::
  * Modules are super important to use once your application starts growing. Because Vuex
@@ -28,9 +24,10 @@
 
  export const store = new Vuex.Store({
    state: {
-     appTitle: 'UTM Tracking App'
+     appTitle: 'UTM Campaign Manager'
    },
    modules: {
-     auth: authentication
+     auth: authentication,
+     camp: campaigns
    }
  })

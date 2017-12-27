@@ -71,7 +71,6 @@
         return this.$store.state.appTitle
       },
       isAuthenticated () {
-        console.log(this.$store.getters['auth/getUser'], 'getUser')
         return this.$store.getters['auth/getUser'] !== null && this.$store.getters['auth/getUser'] !== undefined
       },
       menuItems () {
