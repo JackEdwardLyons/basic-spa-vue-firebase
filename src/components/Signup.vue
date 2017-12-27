@@ -63,17 +63,15 @@ export default {
       return this.password === this.passwordConfirm ? true : 'Passwords don\'t match'
     },
     error () {
-      return this.$store.getters.getError
+      return this.$store.getters['getError']
     },
     loading () {
-      return this.$store.getters.getLoading
+      return this.$store.getters['auth/getLoading']
     }
   },
   methods: {
     userSignUp () {
-      if (this.comparePasswords !== true) {
-        return
-      }
+      if (this.comparePasswords !== true) { return }
       this.$store.dispatch('userSignUp', { email: this.email, password: this.password })
     }
   },

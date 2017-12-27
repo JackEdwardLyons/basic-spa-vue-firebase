@@ -10,17 +10,27 @@
 
  import Vue from 'vue'
  import Vuex from 'vuex'
-
- import { state } from './state'
- import { mutations } from './mutations'
- import { actions } from './actions'
- import { getters } from './getters'
+ import authentication from './modules/authentication/authentication'
 
  Vue.use(Vuex)
 
+//  import { state } from './state'
+//  import { mutations } from './mutations'
+//  import { actions } from './actions'
+//  import { getters } from './getters'
+
+/* Vuex Modules ::
+ * Modules are super important to use once your application starts growing. Because Vuex
+ * is a single state tree, the entire state of your application is contained inside one big
+ * object. However, this can get really bloated as you add new features and their corresponding states.
+ * We get around this state bloat by using Modules to separate out the various pieces of state.
+ */
+
  export const store = new Vuex.Store({
-   state,
-   mutations,
-   actions,
-   getters
+   state: {
+     appTitle: 'UTM Tracking App'
+   },
+   modules: {
+     auth: authentication
+   }
  })

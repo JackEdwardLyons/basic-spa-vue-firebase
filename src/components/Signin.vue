@@ -49,10 +49,10 @@ export default {
   },
   computed: {
     error () {
-      return this.$store.getters.getError
+      return this.$store.getters['auth/getError']
     },
     loading () {
-      return this.$store.getters.getLoading
+      return this.$store.getters['auth/getLoading']
     }
   },
   watch: {
@@ -63,13 +63,13 @@ export default {
     },
     alert (value) {
       if (!value) {
-        this.$store.dispatch('setError', false)
+        this.$store.dispatch('auth/setError', false)
       }
     }
   },
   methods: {
     userSignIn () {
-      this.$store.dispatch('userSignIn', { email: this.email, password: this.password })
+      this.$store.dispatch('auth/userSignIn', { email: this.email, password: this.password })
     }
   }
 }

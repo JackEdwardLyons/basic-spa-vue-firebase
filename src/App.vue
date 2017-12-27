@@ -68,10 +68,11 @@
     },
     computed: {
       appTitle () {
-        return this.$store.getters.appTitle
+        return this.$store.state.appTitle
       },
       isAuthenticated () {
-        return this.$store.getters.getUser !== null && this.$store.getters.getUser !== undefined
+        console.log(this.$store.getters['auth/getUser'], 'getUser')
+        return this.$store.getters['auth/getUser'] !== null && this.$store.getters['auth/getUser'] !== undefined
       },
       menuItems () {
         if (this.isAuthenticated) {
@@ -88,7 +89,7 @@
     },
     methods: {
       userSignOut () {
-        this.$store.dispatch('userSignOut')
+        this.$store.dispatch('auth/userSignOut')
       }
     }
   }

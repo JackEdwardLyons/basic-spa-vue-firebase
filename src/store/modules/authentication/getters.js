@@ -1,7 +1,4 @@
 export const getters = {
-  appTitle (state) {
-    return state.appTitle
-  },
   getUser (state) {
     return state.user
   },
