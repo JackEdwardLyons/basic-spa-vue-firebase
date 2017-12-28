@@ -30,14 +30,14 @@
                   <v-layout wrap class="pt-0">
                     <v-flex xs12 sm6>
                       <v-text-field 
-                        @keyup.stop="updateCampaignUrl($event.target.value)" 
+                        @keyup.stop="updateCampaignData('camp/updateCampaignUrl', $event.target.value)" 
                         label="Website URL" 
                         required
                       ></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm6>
                       <v-text-field
-                        @keyup.stop="updateCampaignSource($event.target.value)" 
+                        @keyup.stop="updateCampaignData('camp/updateCampaignSource', $event.target.value)" 
                         label="Source" 
                         required 
                         persistent-hint 
@@ -46,48 +46,29 @@
                     </v-flex>
                     <v-flex xs12 sm6>
                       <v-text-field
-                        @keyup.stop="updateCampaignMedium($event.target.value)" 
+                        @keyup.stop="updateCampaignData('camp/updateCampaignMedium', $event.target.value)" 
                         label="Medium" 
                         required 
                         persistent-hint 
                         hint="Marketing medium: (e.g. cpc, banner, email)"
                     ></v-text-field>
                     </v-flex>
-                    <!-- <v-flex xs12 sm6>
-                      <v-text-field
-                        @keyup.stop="updateCampaignTerm($event.target.value)" 
-                        label="Term" 
-                        required 
-                        persistent-hint 
-                        hint="Identify the paid keywords"
-                      ></v-text-field>
-                    </v-flex> -->
                     <v-flex xs12 sm6>
                       <v-text-field 
-                        @keyup.stop="updateCampaignName($event.target.value)"
+                        @keyup.stop="updateCampaignData('camp/updateCampaignName', $event.target.value)"
                         label="Campaign Name" 
                         required 
                         persistent-hint 
                         hint="Product, promo code, or slogan (e.g. spring_sale)"
                       ></v-text-field>
                     </v-flex>
-                     <!-- <v-flex xs12 sm6>
-                      <v-text-field 
-                        @keyup.stop="updateCampaignContent($event.target.value)" 
-                        label="Campaign Content" 
-                        required 
-                        persistent-hint 
-                        hint="Use to differentiate ads"
-                      >
-                      </v-text-field>
-                    </v-flex> -->
                     <v-flex xs12>
                       <v-text-field
+                        v-show="getCampaignData('camp/getCampaignUrl')"
+                        class="mt-3"
                         :value="returnGeneratedUrl"
-                        class="generated-utm-textarea"
                         name="input-1"
                         label="Your generated UTM link"
-                        textarea
                         readonly
                       ></v-text-field>
                     </v-flex>
@@ -175,25 +156,16 @@
 <script>
   export default {
     methods: {
-      updateCampaignName (text) {
-        this.$store.dispatch('camp/updateCampaignName', text)
+      updateCampaignData (endpoint, text) {
+        this.$store.dispatch(endpoint, text)
       },
-      updateCampaignMedium (text) {
-        this.$store.dispatch('camp/updateCampaignMedium', text)
-      },
-      updateCampaignSource (text) {
-        this.$store.dispatch('camp/updateCampaignSource', text)
-      },
-      updateCampaignUrl (text) {
-        this.$store.dispatch('camp/updateCampaignUrl', text)
-      },
-      updateGeneratedCampaignUrl (text) {
-        this.$store.dispatch('camp/updateGeneratedCampaignUrl', text)
+      getCampaignData (endpoint) {
+        return this.$store.getters[endpoint]
       }
     },
     computed: {
       returnGeneratedUrl () {
-        return `${this.$store.getters['camp/getCampaignUrl']}?utm_source=${this.$store.getters['camp/getCampaignSource']}&utm_medium=${this.$store.getters['camp/getCampaignMedium']}&utm_campaign=${this.$store.getters['camp/getCampaignName']}`
+        return `${this.getCampaignData('camp/getCampaignUrl')}?utm_source=${this.getCampaignData('camp/getCampaignSource')}&utm_medium=${this.getCampaignData('camp/getCampaignMedium')}&utm_campaign=${this.getCampaignData('camp/getCampaignName')}`
       }
     },
     data () {
@@ -313,12 +285,6 @@
 }
 .mt-7 {
   margin-top: 7em;
-}
-.generated-utm-textarea > .input-group__input {
-  height: 100px;
-}
-.generated-utm-textarea textarea {
-  padding-top: 1em;
 }
 .pointer {
   cursor: pointer;
