@@ -19,73 +19,75 @@
             </v-btn>
             <!-- start modal -->
             <v-dialog v-model="dialog" persistent max-width="700px">
-              <v-card>
-                <v-card-title>
-                  <span class="headline">Create UTM campaign</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container grid-list-md>
-                    <small>*indicates required field</small>
-                    <v-layout wrap class="pt-0">
-                      <v-flex xs12 sm6>
-                        <v-text-field 
-                          @keyup.stop="updateCampaignData('camp/updateCampaignUrl', $event.target.value)" 
-                          label="Website URL" 
-                          required
+              <v-form @submit.prevent="addDataToTable()" ref="campaignForm">
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Create UTM campaign</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container grid-list-md>
+                      <small>*indicates required field</small>
+                      <v-layout wrap class="pt-0">
+                        <v-flex xs12 sm6>
+                          <v-text-field 
+                            v-model="campaignUrl"
+                            label="Website URL" 
+                            required
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 sm6>
+                          <v-text-field
+                            v-model="campaignSource"
+                            label="Source" 
+                            required 
+                            persistent-hint 
+                            hint="The referrer: (e.g. google, newsletter)"
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 sm6>
+                          <v-text-field
+                            v-model="campaignMedium"
+                            label="Medium" 
+                            required 
+                            persistent-hint 
+                            hint="Marketing medium: (e.g. cpc, banner, email)"
                         ></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field
-                          @keyup.stop="updateCampaignData('camp/updateCampaignSource', $event.target.value)" 
-                          label="Source" 
-                          required 
-                          persistent-hint 
-                          hint="The referrer: (e.g. google, newsletter)"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field
-                          @keyup.stop="updateCampaignData('camp/updateCampaignMedium', $event.target.value)" 
-                          label="Medium" 
-                          required 
-                          persistent-hint 
-                          hint="Marketing medium: (e.g. cpc, banner, email)"
-                      ></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field 
-                          @keyup.stop="updateCampaignData('camp/updateCampaignName', $event.target.value)"
-                          label="Campaign Name" 
-                          required 
-                          persistent-hint 
-                          hint="Product, promo code, or slogan (e.g. spring_sale)"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 class="generated-link-wrapper">
-                        <p class="mt-3">Your generated UTM link</p>
-                        <v-text-field
-                          v-show="getCampaignData('camp/getCampaignUrl')"
-                          :value="returnGeneratedUrl"
-                          name="input-1"
-                          readonly
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-card-text>
+                        </v-flex>
+                        <v-flex xs12 sm6>
+                          <v-text-field 
+                            v-model="campaignName"
+                            label="Campaign Name" 
+                            required 
+                            persistent-hint 
+                            hint="Product, promo code, or slogan (e.g. spring_sale)"
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 class="generated-link-wrapper">
+                          <p class="mt-3">Your generated UTM link</p>
+                          <v-text-field
+                            v-show="this.campaignUrl"
+                            :value="returnGeneratedUrl"
+                            name="input-1"
+                            readonly
+                          ></v-text-field>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-card-text>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary">Copy Link</v-btn>
-                  <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-                  <v-btn color="blue darken-1" flat @click.native="addLinkToTable()">Save</v-btn>
-                </v-card-actions>
-              </v-card>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary">Copy Link</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+                    <v-btn color="blue darken-1" type="submit" flat>Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-form>
             </v-dialog>
             <!-- end modal -->
 
             <v-spacer></v-spacer>
-
+            <!-- Searchbar -->
             <v-text-field
               append-icon="search"
               label="Search"
@@ -154,9 +156,9 @@
 
 <script>
   import { db } from '../main'
-  // Potential todo:
-  // 1. add server side loading and pagination
-  // 2. allow modal box updating of item after creation
+  // TODO:
+  // 1. update state of data items once form data has been submitted
+  // 2. Add COPY button functionality
   export default {
     methods: {
       updateCampaignData (endpoint, text) {
@@ -165,27 +167,38 @@
       getCampaignData (endpoint) {
         return this.$store.getters[endpoint]
       },
-      addLinkToTable () {
-        this.dialog = false
+      clear () {
+        this.$refs.campaignForm.reset()
+      },
+      addDataToTable () {
+        this.updateCampaignData('camp/updateLoadingState', true)
         // testing db
         db.ref().child('campaigns').push().set({
           campaign_created: new Date().getTime(),
-          campaign_medium: this.getCampaignData('camp/getCampaignMedium'),
-          campaign_name: this.getCampaignData('camp/getCampaignName'),
-          campaign_source: this.getCampaignData('camp/getCampaignSource'),
-          campaign_url: this.getCampaignData('camp/getCampaignUrl'),
+          campaign_medium: this.campaignMedium,
+          campaign_name: this.campaignName,
+          campaign_source: this.campaignSource,
+          campaign_url: this.campaignUrl,
           campaign_generated_link: this.returnGeneratedUrl
         })
-        console.log('data added to table')
+        this.clear()
+        this.dialog = false
+        console.log('data pushed to db successfully')
+        this.updateCampaignData('camp/updateLoadingState', false)
       }
     },
     computed: {
       returnGeneratedUrl () {
-        return `${this.getCampaignData('camp/getCampaignUrl')}?utm_source=${this.getCampaignData('camp/getCampaignSource')}&utm_medium=${this.getCampaignData('camp/getCampaignMedium')}&utm_campaign=${this.getCampaignData('camp/getCampaignName')}`
+        return `${this.campaignName}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
       }
     },
     data () {
       return {
+        campaignMedium: '',
+        campaignName: '',
+        campaignSource: '',
+        campaignUrl: '',
+        dataSubmitted: false,
         dialog: false,
         max25chars: (v) => v.length <= 25 || 'Input too long!',
         tmp: '',

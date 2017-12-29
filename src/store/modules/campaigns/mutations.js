@@ -13,5 +13,11 @@ export const mutations = {
   },
   UPDATE_GENERATED_CAMPAIGN_URL (state, payload) {
     state.campaign.generatedUrl = payload
+  },
+  UPDATE_LOADING_STATE (state, payload) {
+    state.campaign.loading = payload
+  },
+  UPDATE_SUBMITTED_DATA (state, payload) {
+    state.campaign.dataSubmitted = payload
   }
 }

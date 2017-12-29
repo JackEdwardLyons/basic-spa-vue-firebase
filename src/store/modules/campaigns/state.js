@@ -1,10 +1,12 @@
 export const state = {
   campaign: {
+    dataSubmitted: false,
+    generatedUrl: '',
+    loading: false,
     medium: '',
     name: '',
     source: '',
     url: '',
-    generatedUrl: '',
     tableHeaders: [
       { text: 'Link Name', align: 'left', value: 'name' },
       { text: 'Date Created', value: 'created' },
