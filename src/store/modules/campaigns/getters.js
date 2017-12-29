@@ -1,10 +1,4 @@
  export const getters = {
-   getCampaignCategory (state) {
-     return state.campaign.category
-   },
-   getCampaignContent (state) {
-     return state.campaign.content
-   },
    getCampaignName (state) {
      return state.campaign.name
    },
@@ -14,13 +8,16 @@
    getCampaignSource (state) {
      return state.campaign.source
    },
-   getCampaignTerm (state) {
-     return state.campaign.term
-   },
    getCampaignUrl (state) {
      return state.campaign.url
    },
    getGeneratedCampaignUrl (state) {
      return state.campaign.generatedUrl
+   },
+   getTableData (state) {
+     return state.campaign.tableData
+   },
+   getTableHeaders (state) {
+     return state.campaign.tableHeaders
    }
  }

@@ -1,0 +1,26 @@
+/* ----------------------- *\
+ * Global SCSS Stylesheet
+ * Author: Jack Lyons
+ * ----------------------- */
+
+/* ---- Text Styles ---- */
+
+.text--underline {
+	text-decoration: underline;
+}
+
+/* ---- Spacing ---- */
+
+.mt-7 {
+	margin-top: 7em;
+}
+
+/* ---- Modifiers ---- */
+
+.pointer {
+	cursor: pointer;
+}
+
+.pointer:hover {
+	font-weight: bold;
+}
