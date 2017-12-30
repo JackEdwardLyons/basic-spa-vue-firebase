@@ -106,7 +106,7 @@
             <template slot="items" slot-scope="props">
               <td>
                 <v-edit-dialog lazy>
-                  {{ props.item.name }}
+                  {{ props.item.campaign_name }}
                   <v-text-field
                     slot="input"
                     label="Edit"
@@ -117,9 +117,8 @@
                   ></v-text-field>
                 </v-edit-dialog>
               </td>
-              <td class="text-xs-right">{{ props.item.created }}</td>
-              <td class="text-xs-right">{{ props.item.campaign }}</td>
-              <td class="text-xs-right">{{ props.item.link }}</td>
+              <td class="text-xs-right">{{ props.item.campaign_created }}</td>
+              <td class="text-xs-right">{{ props.item.campaign_link }}</td>
               <td class="text-xs-right pr-0 pointer">{{ props.item.copy }}</td>
               <td class="text-xs-right">
                 <v-edit-dialog
@@ -167,29 +166,31 @@
       getCampaignData (endpoint) {
         return this.$store.getters[endpoint]
       },
-      clear () {
+      resetForm () {
         this.$refs.campaignForm.reset()
       },
       addDataToTable () {
         this.updateCampaignData('camp/updateLoadingState', true)
         // testing db
         db.ref().child('campaigns').push().set({
-          campaign_created: new Date().getTime(),
-          campaign_medium: this.campaignMedium,
           campaign_name: this.campaignName,
-          campaign_source: this.campaignSource,
-          campaign_url: this.campaignUrl,
-          campaign_generated_link: this.returnGeneratedUrl
+          campaign_created: new Date().toLocaleDateString(),
+          campaign_link: this.returnGeneratedUrl,
+          copy: 'COPY LINK'
+          // campaign_medium: this.campaignMedium,
+          // campaign_source: this.campaignSource,
+          // campaign_url: this.campaignUrl,
         })
-        this.clear()
+        this.resetForm()
         this.dialog = false
         console.log('data pushed to db successfully')
+        this.$store.dispatch('camp/updateDataTable')
         this.updateCampaignData('camp/updateLoadingState', false)
       }
     },
     computed: {
       returnGeneratedUrl () {
-        return `${this.campaignName}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
+        return `${this.campaignUrl}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
       }
     },
     data () {
@@ -198,14 +199,13 @@
         campaignName: '',
         campaignSource: '',
         campaignUrl: '',
-        dataSubmitted: false,
         dialog: false,
-        max25chars: (v) => v.length <= 25 || 'Input too long!',
-        tmp: '',
-        search: '',
-        pagination: {},
         headers: this.getCampaignData('camp/getTableHeaders'),
-        items: this.getCampaignData('camp/getTableData')
+        items: this.getCampaignData('camp/getTableData'),
+        max25chars: (v) => v.length <= 25 || 'Input too long!',
+        pagination: {},
+        search: '',
+        tmp: ''
       }
     }
   }
