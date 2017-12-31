@@ -104,42 +104,10 @@
               v-bind:pagination.sync="pagination"
             >
             <template slot="items" slot-scope="props">
-              <td>
-                <v-edit-dialog lazy>
-                  {{ props.item.campaign_name }}
-                  <v-text-field
-                    slot="input"
-                    label="Edit"
-                    v-model="props.item.name"
-                    single-line
-                    counter
-                    :rules="[max25chars]"
-                  ></v-text-field>
-                </v-edit-dialog>
-              </td>
+              <td class="text-xs-right">{{ props.item.campaign_name }}</td>
               <td class="text-xs-right">{{ props.item.campaign_created }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
-              <td class="text-xs-right pr-0 pointer">{{ props.item.copy }}</td>
-              <td class="text-xs-right">
-                <v-edit-dialog
-                  @open="tmp = props.item.iron"
-                  @save="props.item.iron = tmp || props.item.iron"
-                  large
-                  lazy
-                >
-                  <div>{{ props.item.iron }}</div>
-                  <div slot="input" class="mt-3 title">Update Iron</div>
-                  <v-text-field
-                    slot="input"
-                    label="Edit"
-                    v-model="tmp"
-                    single-line
-                    counter
-                    autofocus
-                    :rules="[max25chars]"
-                  ></v-text-field>
-                </v-edit-dialog>
-              </td>
+              <td class="text-xs-right pointer">{{ props.item.copy }}</td>
             </template>
             <!-- Pagination -->
             <template slot="pageText" slot-scope="{ pageStart, pageStop }">
@@ -156,8 +124,8 @@
 <script>
   import { db } from '../main'
   // TODO:
-  // 1. update state of data items once form data has been submitted
-  // 2. Add COPY button functionality
+  // 1. Add COPY button functionality
+  // 2. Add DELETE button
   export default {
     methods: {
       updateCampaignData (endpoint, text) {
@@ -177,15 +145,12 @@
           campaign_created: new Date().toLocaleDateString(),
           campaign_link: this.returnGeneratedUrl,
           copy: 'COPY LINK'
-          // campaign_medium: this.campaignMedium,
-          // campaign_source: this.campaignSource,
-          // campaign_url: this.campaignUrl,
         })
         this.resetForm()
         this.dialog = false
-        console.log('data pushed to db successfully')
         this.$store.dispatch('camp/updateDataTable')
         this.updateCampaignData('camp/updateLoadingState', false)
+        console.log('data pushed to db successfully')
       }
     },
     computed: {
@@ -207,6 +172,9 @@
         search: '',
         tmp: ''
       }
+    },
+    created () {
+      this.$store.dispatch('camp/updateDataTable')  // get data from db once
     }
   }
 </script>
