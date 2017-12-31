@@ -4,5 +4,8 @@ export const mutations = {
   },
   UPDATE_DATA_TABLE (state, payload) {
     state.campaign.tableData.push(payload)
+  },
+  SET_DATA_TABLE (state, payload) {
+    state.campaign.tableData.push(payload)
   }
 }

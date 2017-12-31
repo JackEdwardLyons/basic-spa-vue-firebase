@@ -90,6 +90,11 @@
       userSignOut () {
         this.$store.dispatch('auth/userSignOut')
       }
+    },
+    created () {
+      if (this.isAuthenticated) {
+        this.$store.dispatch('camp/getDataTable')  // get data from db once
+      }
     }
   }
 </script>

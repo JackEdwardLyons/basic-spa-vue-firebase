@@ -172,9 +172,6 @@
         search: '',
         tmp: ''
       }
-    },
-    created () {
-      this.$store.dispatch('camp/updateDataTable')  // get data from db once
     }
   }
 </script>
