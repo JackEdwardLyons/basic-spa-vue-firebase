@@ -3,12 +3,16 @@ import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
 import { store } from './store/index'
+
+import VueClipboard from 'vue-clipboard2'
+
 import firebase from 'firebase'
 import VueFire from 'vuefire'
 import { firebaseConfig } from './config'
 
 Vue.use(Vuetify)
 Vue.use(VueFire)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 

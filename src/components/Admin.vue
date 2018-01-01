@@ -77,7 +77,20 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary">Copy Link</v-btn>
+                    <v-alert
+                      style="padding: 5px 20px"
+                      color="success"
+                      :value="alertCopyStatus"
+                      transition="fade-transition"
+                    >
+                      Copied to clipboard
+                    </v-alert>
+                    <v-btn 
+                      color="primary" 
+                      v-clipboard:copy="returnGeneratedUrl"
+                      v-clipboard:success="onCopy"
+                      v-clipboard:error="onCopyError"
+                    >Copy Link</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
                     <v-btn color="blue darken-1" type="submit" flat>Save</v-btn>
                   </v-card-actions>
@@ -128,6 +141,15 @@
   // 2. Add DELETE button
   export default {
     methods: {
+      onCopy: function (e) {
+        this.alertCopyStatus = true
+        setTimeout(() => {
+          this.alertCopyStatus = false
+        }, 500)
+      },
+      onCopyError: function (e) {
+        alert('Failed to copy texts')
+      },
       updateCampaignData (endpoint, text) {
         this.$store.dispatch(endpoint, text)
       },
@@ -160,6 +182,7 @@
     },
     data () {
       return {
+        alertCopyStatus: false,
         campaignMedium: '',
         campaignName: '',
         campaignSource: '',
