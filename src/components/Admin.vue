@@ -120,7 +120,10 @@
               <td class="text-xs-right">{{ props.item.campaign_name }}</td>
               <td class="text-xs-right">{{ props.item.campaign_created }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
-              <td class="text-xs-right pointer">{{ props.item.copy }}</td>
+              <td class="text-xs-right pointer"
+                  v-clipboard:copy="props.item.campaign_link"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onCopyError">COPY LINK</td>
             </template>
             <!-- Pagination -->
             <template slot="pageText" slot-scope="{ pageStart, pageStop }">
@@ -137,8 +140,7 @@
 <script>
   import { db } from '../main'
   // TODO:
-  // 1. Add COPY button functionality
-  // 2. Add DELETE button
+  // 1. Add DELETE button
   export default {
     methods: {
       onCopy: function (e) {
@@ -161,7 +163,8 @@
       },
       addDataToTable () {
         this.updateCampaignData('camp/updateLoadingState', true)
-        // testing db
+        // TODO: Set specific data for each user
+        // https://stackoverflow.com/questions/30910704/how-do-i-link-each-user-to-their-data-in-firebase
         db.ref().child('campaigns').push().set({
           campaign_name: this.campaignName,
           campaign_created: new Date().toLocaleDateString(),
