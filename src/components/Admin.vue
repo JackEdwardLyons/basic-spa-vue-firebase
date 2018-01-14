@@ -164,8 +164,8 @@
       addDataToTable () {
         this.updateCampaignData('camp/updateLoadingState', true)
         // TODO: Set specific data for each user
-        // https://stackoverflow.com/questions/30910704/how-do-i-link-each-user-to-their-data-in-firebase
-        db.ref().child('campaigns').push().set({
+        const USER_KEY = this.$store.getters['auth/getUserId']
+        db.ref().child('campaigns').child(USER_KEY).set({
           campaign_name: this.campaignName,
           campaign_created: new Date().toLocaleDateString(),
           campaign_link: this.returnGeneratedUrl,
@@ -182,6 +182,9 @@
       returnGeneratedUrl () {
         return `${this.campaignUrl}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
       }
+    },
+    created () {
+      console.log('userId: ', this.$store.getters['auth/getUserId'])
     },
     data () {
       return {

@@ -72,7 +72,7 @@ export default {
   methods: {
     userSignUp () {
       if (this.comparePasswords !== true) { return }
-      this.$store.dispatch('userSignUp', { email: this.email, password: this.password })
+      this.$store.dispatch('auth/userSignUp', { email: this.email, password: this.password })
     }
   },
   watch: {

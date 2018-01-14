@@ -38,5 +38,8 @@ export const actions = {
     firebase.auth().signOut()
     commit('setUser', null)
     router.push('/')
+  },
+  setUserId ({commit}, payload) {
+    commit('setUserId', payload)
   }
 }

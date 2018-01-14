@@ -34,6 +34,7 @@ const unsubscribe = firebase.auth()
       // Firebase has an observer called onAuthStateChanged which will help your
       // app to figure out whether your user is currently signed in or not.
       store.dispatch('auth/autoSignIn', firebaseUser)
+      store.dispatch('auth/setUserId', firebaseUser.uid)
     }
   })
   unsubscribe()
