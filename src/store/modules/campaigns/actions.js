@@ -12,8 +12,8 @@ export const actions = {
       console.log(error)
     })
   },
-  updateDataTable ({ commit }) {
-    const ref = db.ref('/campaigns')
+  updateDataTable ({ commit }, userKey) {
+    const ref = db.ref(`campaigns/${userKey}/campaign`)
     ref.on('child_changed', (snapshot, prevChildKey) => {
       commit('UPDATE_DATA_TABLE', snapshot.val())
     }, error => {

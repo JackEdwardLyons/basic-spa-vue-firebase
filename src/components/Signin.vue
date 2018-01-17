@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import firebaseUser from '../App.vue'
 export default {
   data () {
     return {
@@ -70,6 +71,7 @@ export default {
   methods: {
     userSignIn () {
       this.$store.dispatch('auth/userSignIn', { email: this.email, password: this.password })
+      this.$store.dispatch('auth/setUserId', firebaseUser.uid)
     }
   }
 }

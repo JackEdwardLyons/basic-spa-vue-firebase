@@ -62,7 +62,6 @@
   export default {
     data () {
       return {
-        // appTitle: 'Awesome App',
         sidebar: false
       }
     },
@@ -89,6 +88,7 @@
     methods: {
       userSignOut () {
         this.$store.dispatch('auth/userSignOut')
+        this.$store.dispatch('auth/setUserId', '')
       }
     },
     created () {

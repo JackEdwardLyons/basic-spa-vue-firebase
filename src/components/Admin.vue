@@ -117,7 +117,10 @@
               v-bind:pagination.sync="pagination"
             >
             <template slot="items" slot-scope="props">
-              <td class="text-xs-right">{{ props.item.campaign_name }}</td>
+              <!-- 
+                TODO: Campaigns are loaded but each have a different hash key, which I need to know...
+               -->
+              <td class="text-xs-right">{{ props.item.campaign['-L34yl7wSnje3D2bsAO5'] }}</td>
               <td class="text-xs-right">{{ props.item.campaign_created }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
               <td class="text-xs-right pointer"
@@ -150,7 +153,7 @@
         }, 500)
       },
       onCopyError: function (e) {
-        alert('Failed to copy texts')
+        alert('Failed to copy texts, please try again.')
       },
       updateCampaignData (endpoint, text) {
         this.$store.dispatch(endpoint, text)
@@ -164,8 +167,8 @@
       addDataToTable () {
         this.updateCampaignData('camp/updateLoadingState', true)
         // TODO: Set specific data for each user
-        const USER_KEY = this.$store.getters['auth/getUserId']
-        db.ref().child('campaigns').child(USER_KEY).set({
+        const USER_KEY = this.$store.getters['auth/getUser'].uid
+        db.ref(`campaigns/${USER_KEY}/campaign`).push().set({
           campaign_name: this.campaignName,
           campaign_created: new Date().toLocaleDateString(),
           campaign_link: this.returnGeneratedUrl,
@@ -173,7 +176,7 @@
         })
         this.resetForm()
         this.dialog = false
-        this.$store.dispatch('camp/updateDataTable')
+        this.$store.dispatch('camp/updateDataTable', USER_KEY)
         this.updateCampaignData('camp/updateLoadingState', false)
         console.log('data pushed to db successfully')
       }
@@ -184,7 +187,7 @@
       }
     },
     created () {
-      console.log('userId: ', this.$store.getters['auth/getUserId'])
+      console.log(this.$store.getters['auth/getUser'].uid)
     },
     data () {
       return {
