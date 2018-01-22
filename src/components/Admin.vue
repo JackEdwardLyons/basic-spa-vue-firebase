@@ -112,7 +112,7 @@
           <!-- Data Table -->
           <v-data-table
               v-bind:headers="headers"
-              v-bind:items="items"
+              v-bind:items="formattedTableItems"
               v-bind:search="search"
               v-bind:pagination.sync="pagination"
             >
@@ -120,7 +120,7 @@
               <!-- 
                 TODO: Campaigns are loaded but each have a different hash key, which I need to know...
                -->
-              <td class="text-xs-right">{{ props.item.campaign['-L34yl7wSnje3D2bsAO5'] }}</td>
+              <td class="text-xs-right">{{ props.item.campaign_name }}</td>
               <td class="text-xs-right">{{ props.item.campaign_created }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
               <td class="text-xs-right pointer"
@@ -145,6 +145,22 @@
   // TODO:
   // 1. Add DELETE button
   export default {
+    data () {
+      return {
+        alertCopyStatus: false,
+        campaignMedium: '',
+        campaignName: '',
+        campaignSource: '',
+        campaignUrl: '',
+        dialog: false,
+        headers: this.getCampaignData('camp/getTableHeaders'),
+        items: this.getCampaignData('camp/getTableData'),
+        max25chars: (v) => v.length <= 25 || 'Input too long!',
+        pagination: {},
+        search: '',
+        tmp: ''
+      }
+    },
     methods: {
       onCopy: function (e) {
         this.alertCopyStatus = true
@@ -179,31 +195,33 @@
         this.$store.dispatch('camp/updateDataTable', USER_KEY)
         this.updateCampaignData('camp/updateLoadingState', false)
         console.log('data pushed to db successfully')
+        location.reload()
       }
     },
     computed: {
       returnGeneratedUrl () {
         return `${this.campaignUrl}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
+      },
+      formattedTableItems () {
+        if (this.items.length) {
+          let camps = []
+          const campaignItems = this.items[0].campaign
+          for (var key in campaignItems) {
+            camps[key] = campaignItems[key]
+          }
+          return Object.values(camps)
+        } else {
+          console.log('poo')
+        }
+      }
+    },
+    watch: {
+      items (v) {
+        this.items = v
       }
     },
     created () {
       console.log(this.$store.getters['auth/getUser'].uid)
-    },
-    data () {
-      return {
-        alertCopyStatus: false,
-        campaignMedium: '',
-        campaignName: '',
-        campaignSource: '',
-        campaignUrl: '',
-        dialog: false,
-        headers: this.getCampaignData('camp/getTableHeaders'),
-        items: this.getCampaignData('camp/getTableData'),
-        max25chars: (v) => v.length <= 25 || 'Input too long!',
-        pagination: {},
-        search: '',
-        tmp: ''
-      }
     }
   }
 </script>
