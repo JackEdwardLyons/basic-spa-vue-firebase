@@ -112,14 +112,11 @@
           <!-- Data Table -->
           <v-data-table
               v-bind:headers="headers"
-              v-bind:items="formattedTableItems"
+              v-bind:items="items"
               v-bind:search="search"
               v-bind:pagination.sync="pagination"
             >
             <template slot="items" slot-scope="props">
-              <!-- 
-                TODO: Campaigns are loaded but each have a different hash key, which I need to know...
-               -->
               <td class="text-xs-right">{{ props.item.campaign_name }}</td>
               <td class="text-xs-right">{{ props.item.campaign_created }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
@@ -145,6 +142,47 @@
   // TODO:
   // 1. Add DELETE button
   export default {
+    methods: {
+      onCopy: function (e) {
+        this.alertCopyStatus = true
+        setTimeout(() => {
+          this.alertCopyStatus = false
+        }, 500)
+      },
+      onCopyError: function (e) {
+        alert('Failed to copy texts')
+      },
+      updateCampaignData (endpoint, text) {
+        this.$store.dispatch(endpoint, text)
+      },
+      getCampaignData (endpoint) {
+        return this.$store.getters[endpoint]
+      },
+      resetForm () {
+        this.$refs.campaignForm.reset()
+      },
+      addDataToTable () {
+        this.updateCampaignData('camp/updateLoadingState', true)
+        // TODO: Set specific data for each user
+        // https://stackoverflow.com/questions/30910704/how-do-i-link-each-user-to-their-data-in-firebase
+        db.ref().child('campaigns').push().set({
+          campaign_name: this.campaignName,
+          campaign_created: new Date().toLocaleDateString(),
+          campaign_link: this.returnGeneratedUrl,
+          copy: 'COPY LINK'
+        })
+        this.resetForm()
+        this.dialog = false
+        this.$store.dispatch('camp/updateDataTable')
+        this.updateCampaignData('camp/updateLoadingState', false)
+        console.log('data pushed to db successfully')
+      }
+    },
+    computed: {
+      returnGeneratedUrl () {
+        return `${this.campaignUrl}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
+      }
+    },
     data () {
       return {
         alertCopyStatus: false,
@@ -160,68 +198,6 @@
         search: '',
         tmp: ''
       }
-    },
-    methods: {
-      onCopy: function (e) {
-        this.alertCopyStatus = true
-        setTimeout(() => {
-          this.alertCopyStatus = false
-        }, 500)
-      },
-      onCopyError: function (e) {
-        alert('Failed to copy texts, please try again.')
-      },
-      updateCampaignData (endpoint, text) {
-        this.$store.dispatch(endpoint, text)
-      },
-      getCampaignData (endpoint) {
-        return this.$store.getters[endpoint]
-      },
-      resetForm () {
-        this.$refs.campaignForm.reset()
-      },
-      addDataToTable () {
-        this.updateCampaignData('camp/updateLoadingState', true)
-        // TODO: Set specific data for each user
-        const USER_KEY = this.$store.getters['auth/getUser'].uid
-        db.ref(`campaigns/${USER_KEY}/campaign`).push().set({
-          campaign_name: this.campaignName,
-          campaign_created: new Date().toLocaleDateString(),
-          campaign_link: this.returnGeneratedUrl,
-          copy: 'COPY LINK'
-        })
-        this.resetForm()
-        this.dialog = false
-        this.$store.dispatch('camp/updateDataTable', USER_KEY)
-        this.updateCampaignData('camp/updateLoadingState', false)
-        console.log('data pushed to db successfully')
-        location.reload()
-      }
-    },
-    computed: {
-      returnGeneratedUrl () {
-        return `${this.campaignUrl}?utm_source=${this.campaignSource}&utm_medium=${this.campaignMedium}&utm_campaign=${this.campaignName}`
-      },
-      formattedTableItems () {
-        if (this.items.length) {
-          let camps = []
-          const campaignItems = this.items[0].campaign
-          for (var key in campaignItems) {
-            camps[key] = campaignItems[key]
-          }
-          return Object.values(camps)
-        } else {
-          console.log('poo')
-        }
-      }
-    },
-    watch: {
-      items (v) {
-        this.items = v
-      }
-    },
-    created () {
-      console.log(this.$store.getters['auth/getUser'].uid)
     }
   }
 </script>
