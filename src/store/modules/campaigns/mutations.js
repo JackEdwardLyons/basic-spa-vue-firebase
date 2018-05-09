@@ -9,5 +9,14 @@ export const mutations = {
     const campaign = state.campaign.tableData.filter(c => c.key === payload.key)[0]
     campaign.campaign_link = payload.campaign_link
     campaign.campaign_name = payload.campaign_name
+  },
+  DELETE_DATA_TABLE (state, payload) {
+    let index = -1
+    state.campaign.tableData.forEach((ele, i) => {
+      if (ele.key === payload.key) {
+        index = i
+      }
+    })
+    state.campaign.tableData.splice(index, 1)
   }
 }

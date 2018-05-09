@@ -8,9 +8,11 @@ import VueClipboard from 'vue-clipboard2'
 
 import firebase from 'firebase'
 import VueFire from 'vuefire'
+import VuetifyConfirm from 'vuetify-confirm'
 import { firebaseConfig } from './config'
 
 Vue.use(Vuetify)
+Vue.use(VuetifyConfirm)
 Vue.use(VueFire)
 Vue.use(VueClipboard)
 

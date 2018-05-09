@@ -7504,6 +7504,10 @@ vuefire@^1.4.5:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.5.tgz#2f31028b18f25e0f581bb68fb94b88302d62ebf8"
 
+vuetify-confirm@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/vuetify-confirm/-/vuetify-confirm-0.0.4.tgz#1b44ef5b1bd1295406a60fe53d9d80c6864df85b"
+
 vuetify@^0.17.6:
   version "0.17.7"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.17.7.tgz#068c8210473643d45166ef9c5f6eb0ecf26bb5a5"

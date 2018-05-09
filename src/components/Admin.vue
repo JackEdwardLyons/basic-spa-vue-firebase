@@ -123,6 +123,8 @@
               <td class="text-xs-right">{{ new Date(props.item.campaign_created).toLocaleDateString() }}</td>
               <td class="text-xs-right">{{ props.item.campaign_link }}</td>
               <td class="text-xs-right">
+                <span @click="showDeleteDialog(props.item)" class="red--text pointer">DELETE</span>
+                &nbsp;|&nbsp;
                 <span @click="showEditDialog(props.item)" class="pointer">EDIT</span>
                 &nbsp;|&nbsp;
                 <span class="pointer"
@@ -196,6 +198,13 @@
         }
         this.editId = item.key
         this.dialog = true
+      },
+      showDeleteDialog (item) {
+        this.$confirm(`Are you sure, you want to delete ${item.campaign_name}?`, {title: 'Warning'}).then(res => {
+          if (res) {
+            this.$store.dispatch('camp/deleteDataTable', item)
+          }
+        })
       },
       fillDialog ({url = '', campaignSource = '', campaignMedium = '', campaignName = ''} = {}) {
         this.campaignUrl = url

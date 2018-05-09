@@ -32,5 +32,14 @@ export const actions = {
         commit('UPDATE_DATA_TABLE', record)
       }
     })
+  },
+  deleteDataTable ({ commit }, record) {
+    db.ref().child(`campaigns/${record.key}`)
+      .remove(error => {
+        debugger
+        if (!error) {
+          commit('DELETE_DATA_TABLE', record)
+        }
+      })
   }
 }
