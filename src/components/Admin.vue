@@ -79,14 +79,6 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-alert
-                      style="padding: 5px 20px"
-                      color="success"
-                      :value="alertCopyStatus"
-                      transition="fade-transition"
-                    >
-                      Copied to clipboard
-                    </v-alert>
                     <v-btn
                       color="primary"
                       v-clipboard:copy="returnGeneratedUrl"
@@ -141,6 +133,19 @@
           </v-data-table>
         </v-card>
       </v-layout>
+      
+      <v-card>
+        <v-snackbar
+          :timeout="timeout"
+          :color="color"
+          :multi-line="mode === 'multi-line'"
+          :vertical="mode === 'vertical'"
+          v-model="alertCopyStatus"
+        >
+          {{ text }}
+          <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+        </v-snackbar>
+      </v-card>
 
     </v-container>
   </v-content>
@@ -149,8 +154,7 @@
 <script>
   import { db } from '../main'
   import queryString from 'query-string'
-  // TODO:
-  // 1. Add DELETE button
+
   export default {
     methods: {
       onCopy: function (e) {
@@ -200,7 +204,7 @@
         this.dialog = true
       },
       showDeleteDialog (item) {
-        this.$confirm(`Are you sure, you want to delete ${item.campaign_name}?`, {title: 'Warning'}).then(res => {
+        this.$confirm(`Are you sure you want to delete campaign "${item.campaign_name}" ?`, {title: 'Warning'}).then(res => {
           if (res) {
             this.$store.dispatch('camp/deleteDataTable', item)
           }
@@ -270,7 +274,11 @@
         search: '',
         tmp: '',
         isCampaignNameUnique: true,
-        editId: null
+        editId: null,
+        color: 'green',
+        mode: '',
+        timeout: 1000,
+        text: 'Copied to clipboard'
       }
     },
     watch: {
@@ -293,5 +301,9 @@
   background: #005C97;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #363795, #005C97);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #363795, #005C97); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.copy-success {
+  color: green;
+  font-weight: bold;
 }
 </style>
